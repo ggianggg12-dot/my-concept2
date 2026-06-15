@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TDS-1531 — 3 Design Concepts | VEDSTAR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+<style>
+/* ─── SWITCHER ─── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Be Vietnam Pro',sans-serif;background:#f0f0f0}
+.design-switcher{position:fixed;top:0;left:0;right:0;z-index:9999;background:#1a1a1a;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.switcher-label{font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.design-btn{padding:7px 18px;border-radius:4px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.7);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Be Vietnam Pro',sans-serif;white-space:nowrap}
+.design-btn:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.design-btn.active{background:#E8272A;border-color:#E8272A;color:#fff}
+.design-frame{display:none;margin-top:53px}
+.design-frame.active{display:block}
+/* ─── COMMON NAV for all designs ─── */
+.vs-topbar{background:#111;color:rgba(255,255,255,.55);font-size:12px;padding:6px 5%;display:flex;justify-content:space-between;align-items:center}
+.vs-topbar a{color:rgba(255,255,255,.55);text-decoration:none}
+.vs-header{background:#fff;border-bottom:1px solid #e2e4e7;position:sticky;top:53px;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.vs-hdr-in{max-width:1200px;margin:0 auto;padding:0 5%;height:68px;display:flex;align-items:center;justify-content:space-between}
+.vs-logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:22px;color:#1a1a1a;text-decoration:none}.vs-logo span{color:#E8272A}
+.vs-nav{display:flex;align-items:center;gap:4px}
+.vs-nav a{padding:0 14px;height:68px;display:flex;align-items:center;font-size:13.5px;font-weight:500;color:#555;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;transition:color .2s}
+.vs-nav a:hover,.vs-nav a.active{color:#1a1a1a;border-bottom-color:#E8272A}
+.vs-btn-consult{background:#E8272A;color:#fff!important;padding:9px 22px;border-radius:4px;font-size:13.5px;font-weight:600;margin-left:8px;border-bottom:none!important;transition:background .2s}
+.vs-btn-consult:hover{background:#C5181B}
+.vs-breadcrumb{background:#f7f8fa;border-bottom:1px solid #e2e4e7;padding:9px 5%}
+.vs-bc{max-width:1200px;margin:0 auto;font-size:12.5px;color:#888;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.vs-bc a{color:#888;text-decoration:none}.vs-bc a:hover{color:#E8272A}
+.vs-bc-sep{color:#bbb;font-size:10px}
+.vs-bc-cur{color:#333;font-weight:500}
+</style>
+</head>
+<body>
+
+<!-- SWITCHER -->
+<div class="design-switcher">
+  <span class="switcher-label">3 Design Concepts — TDS-1531</span>
+  <button class="design-btn active" onclick="showDesign(1)">Concept A — "Split Signal"</button>
+  <button class="design-btn" onclick="showDesign(2)">Concept B — "Data Card"</button>
+  <button class="design-btn" onclick="showDesign(3)">Concept C — "Full-Width Story"</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     DESIGN A — "SPLIT SIGNAL"
+     Hero: ảnh full-height trái / text phải sticky
+     Features: 3-column icon grid
+     Specs: 2-tab (Tổng quan / Kỹ thuật)
+     Signature: animated waveform accent line
+══════════════════════════════════════════ -->
+<div id="design-1" class="design-frame active">
+<style>
+/* A: tokens */
+.a{--red:#E8272A;--dark:#1A1A1A;--text:#2D2D2D;--sub:#555;--muted:#888;--bg:#F7F8FA;--border:#E2E4E7;--white:#fff;--font:'Be Vietnam Pro',sans-serif;--max:1200px}
+
+/* A: HERO — 50/50 sticky split */
+.a-hero{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 120px)}
+.a-hero-img{background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;padding:60px 40px;overflow:hidden}
+.a-hero-img::before{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#E8272A 0%,#ff6b6b 50%,#E8272A 100%);animation:awave 3s ease-in-out infinite}
+@keyframes awave{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.a-device-wrap{position:relative;max-width:300px;width:100%}
+.a-device{width:100%;aspect-ratio:3/4;background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;position:relative;overflow:hidden}
+.a-device::before{content:'';position:absolute;top:0;left:0;right:0;height:6px;background:var(--red)}
+.a-lcd{width:75%;aspect-ratio:5/2;background:#0a1628;border-radius:6px;border:2px solid #1e3050;font-family:'Courier New',monospace;font-size:9px;color:#00e5a0;padding:8px;line-height:1.6;display:flex;align-items:center}
+.a-device-name{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--dark);letter-spacing:.08em}
+.a-device-sub{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.a-leds{display:flex;gap:8px}
+.a-led{width:10px;height:10px;border-radius:50%;animation:blink 2s ease-in-out infinite}
+.a-led.g{background:#22c55e;animation-delay:0s}
+.a-led.a_{background:#f59e0b;animation-delay:.4s}
+.a-led.r{background:#ef4444;animation-delay:.8s}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.a-badge-img{position:absolute;top:12px;right:12px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:.04em}
+
+.a-hero-info{padding:60px 52px;display:flex;flex-direction:column;justify-content:center;max-height:100vh;overflow-y:auto;position:sticky;top:120px}
+.a-cat{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px}
+.a-cat::before{content:'';width:20px;height:2px;background:var(--red)}
+.a h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--dark);line-height:1.1;margin-bottom:8px}
+.a-tagline{font-size:14px;color:var(--muted);font-style:italic;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+/* Overview — horizontal timeline style */
+.a-ov-list{display:flex;flex-direction:column;gap:0;margin-bottom:28px}
+.a-ov{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}
+.a-ov:last-child{border-bottom:none}
+.a-ov-num{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:#e2e4e7;line-height:1;flex-shrink:0;width:36px}
+.a-ov-body strong{display:block;font-size:13.5px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.a-ov-body p{font-size:13px;color:var(--sub);line-height:1.65}
+.a-actions{display:flex;gap:12px;flex-wrap:wrap}
+.a-btn-p{background:var(--red);color:#fff;padding:11px 28px;border-radius:4px;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.a-btn-p:hover{background:#C5181B;transform:translateY(-1px)}
+.a-btn-s{border:1.5px solid var(--red);color:var(--red);padding:10px 24px;border-radius:4px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s}
+.a-btn-s:hover{background:var(--red);color:#fff}
+
+/* A: FEATURES — 3-col icon grid */
+.a-section{padding:60px 0;border-top:1px solid var(--border)}
+.a-wrap{max-width:var(--max);margin:0 auto;padding:0 5%}
+.a-sec-hd{text-align:center;margin-bottom:40px}
+.a-sec-hd h2{font-family:'Space Grotesk',sans-serif;font-size:clamp(20px,2.5vw,26px);font-weight:700;color:var(--dark)}
+.a-sec-hd p{font-size:13.5px;color:var(--muted);margin-top:6px}
+.a-feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.a-feat{background:#fff;padding:28px 24px;transition:background .2s}
+.a-feat:hover{background:#fafbfc}
+.a-feat-ico{font-size:26px;margin-bottom:12px}
+.a-feat h3{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:6px}
+.a-feat p{font-size:13px;color:var(--sub);line-height:1.65}
+
+/* A: SPECS — tab switcher */
+.a-specs-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:32px}
+.a-tab{padding:12px 24px;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s}
+.a-tab.active{color:var(--red);border-bottom-color:var(--red)}
+.a-tab-pane{display:none}
+.a-tab-pane.active{display:block}
+.a-specs-tbl{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:14px}
+.a-specs-tbl thead th{background:var(--dark);color:#fff;padding:11px 16px;text-align:left;font-size:12.5px;font-weight:600;letter-spacing:.04em}
+.a-specs-tbl tbody tr:nth-child(even){background:var(--bg)}
+.a-specs-tbl tbody tr:hover{background:#fef0f0}
+.a-specs-tbl td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.a-specs-tbl tr:last-child td{border-bottom:none}
+.a-td-k{color:var(--muted);font-weight:500;width:42%}
+.a-td-v{color:var(--dark);font-weight:600}
+
+/* A: STANDARDS */
+.a-std-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.a-std{border:1px solid var(--border);border-radius:8px;padding:18px 20px;transition:border-color .2s}
+.a-std:hover{border-color:#f5a0a0}
+.a-std h3{font-size:13.5px;font-weight:700;color:var(--dark);margin-bottom:5px}
+.a-std p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.a-note{background:#fffbf0;border:1px solid #f6d76b;border-left:4px solid #f0b429;border-radius:6px;padding:14px 18px;margin-top:14px;font-size:13px;color:#6b4f00;line-height:1.65}
+
+/* A: DOWNLOADS */
+.a-dl-list{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.a-dl-row{display:flex;align-items:center;gap:16px;padding:15px 20px;border-bottom:1px solid var(--border);background:#fff;cursor:pointer;transition:background .2s;text-decoration:none;color:inherit}
+.a-dl-row:last-child{border-bottom:none}
+.a-dl-row:hover{background:#fef0f0}
+.a-dl-row.disabled{opacity:.45;cursor:not-allowed}
+.a-dl-row.disabled:hover{background:#fff}
+.a-dl-ic{width:42px;height:42px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+.a-dl-row:hover .a-dl-ic{background:#fddcdc}
+.a-dl-row.disabled:hover .a-dl-ic{background:var(--bg)}
+.a-dl-meta h3{font-size:13.5px;font-weight:600;color:var(--dark)}
+.a-dl-meta p{font-size:12px;color:var(--muted);margin-top:2px}
+.a-dl-badge{font-size:11px;font-weight:600;padding:2px 7px;border-radius:3px;display:inline-block;margin-left:4px}
+.badge-pdf{background:#fef0f0;color:var(--red)}
+.badge-soon{background:#fff3e0;color:#e65100}
+.badge-docx{background:#e8f5e9;color:#2e7d32}
+.a-dl-arr{margin-left:auto;color:var(--muted);font-size:18px;transition:all .2s}
+.a-dl-row:hover .a-dl-arr{color:var(--red);transform:translateX(4px)}
+
+/* A: CONTACT */
+.a-contact-sec{background:var(--bg);border-top:1px solid var(--border);padding:60px 5%}
+.a-contact-grid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+.a-contact-left h2{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--dark);margin-bottom:10px}
+.a-contact-left>p{font-size:14px;color:var(--sub);line-height:1.75;margin-bottom:28px}
+.a-steps{display:flex;flex-direction:column;gap:20px}
+.a-step{display:flex;gap:16px}
+.a-step-dot{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.a-step-body h3{font-size:14px;font-weight:600;color:var(--dark)}
+.a-step-body p{font-size:13px;color:var(--sub);line-height:1.5;margin-top:2px}
+.a-form{background:#fff;border:1px solid var(--border);border-radius:10px;padding:32px}
+.a-form h3{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.a-form .csub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.a-fg{margin-bottom:15px}
+.a-fg label{display:block;font-size:13px;font-weight:500;color:var(--text);margin-bottom:5px}
+.a-fg label em{color:var(--red);font-style:normal}
+.a-fg input,.a-fg textarea{width:100%;border:1px solid var(--border);border-radius:5px;padding:10px 13px;font-family:var(--font);font-size:14px;color:var(--text);outline:none;transition:border-color .2s,box-shadow .2s}
+.a-fg input:focus,.a-fg textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,39,42,.08)}
+.a-fg textarea{resize:vertical;min-height:88px}
+.a-fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.a-submit{width:100%;background:var(--red);color:#fff;border:none;border-radius:5px;padding:13px;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:background .2s}
+.a-submit:hover{background:#C5181B}
+.a-footer{background:#111;color:rgba(255,255,255,.55);padding:48px 5% 24px}
+.a-fgrid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:40px}
+.a-flogo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:#fff;margin-bottom:14px;display:block}
+.a-flogo span{color:#E8272A}
+.a-fabout{font-size:13px;line-height:1.75;color:rgba(255,255,255,.4)}
+.a-fcol h4{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.a-fcol ul{list-style:none}
+.a-fcol li{margin-bottom:8px}
+.a-fcol a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s}
+.a-fcol a:hover{color:#fff}
+.a-fbottom{max-width:var(--max);margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:12px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.a-hero{grid-template-columns:1fr}.a-feat-grid{grid-template-columns:1fr 1fr}.a-std-grid{grid-template-columns:1fr 1fr}.a-contact-grid{grid-template-columns:1fr;gap:36px}.a-fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.a-feat-grid{grid-template-columns:1fr}.a-std-grid{grid-template-columns:1fr}.a-fg-row{grid-template-columns:1fr}}
+</style>
+
+<!-- NAV A -->
+<div class="vs-topbar"><span>Công ty cổ phần VEDSTAR</span><div style="display:flex;gap:20px"><a href="#">info@vedstar.com.vn</a><a href="#">Hotline: 024.982.1234</a></div></div>
+<header class="vs-header"><div class="vs-hdr-in"><a class="vs-logo" href="#"><span>VED</span>STAR</a><nav class="vs-nav"><a href="#" class="active">Sản phẩm & Giải pháp</a><a href="#">Dịch vụ</a><a href="#">Về Vedstar</a><a href="#">Tin tức</a><a href="#a-contact" class="vs-btn-consult">Tư vấn</a></nav></div></header>
+<div class="vs-breadcrumb"><div class="vs-bc"><a href="#">Trang chủ</a><span class="vs-bc-sep">›</span><a href="#">Sản phẩm</a><span class="vs-bc-sep">›</span><a href="#">SmartCap</a><span class="vs-bc-sep">›</span><span class="vs-bc-cur">TDS-1531</span></div></div>
+
+<div class="a" style="background:#fff">
+<!-- HERO -->
+<div class="a-hero">
+  <div class="a-hero-img">
+    <div class="a-device-wrap">
+      <div class="a-device">
+        <div class="a-badge-img">SmartCap™</div>
+        <div class="a-lcd"><div>UA:231V UB:230V UC:229V<br>IA:42A &nbsp;IB:41A &nbsp;IC:43A<br>PF:0.88 &nbsp;Q:+12.4kVar<br>Qc:50kvar &nbsp;f:50.0Hz</div></div>
+        <div class="a-device-name">TDS-1531</div>
+        <div class="a-device-sub">Reactive Power Controller</div>
+        <div class="a-leds"><div class="a-led g"></div><div class="a-led a_"></div><div class="a-led r"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="a-hero-info">
+    <div class="a-cat">Điều khiển bù công suất phản kháng</div>
+    <h1>TDS-1531</h1>
+    <p class="a-tagline">Bộ điều khiển tụ bù hạ thế — Đo lường · Giám sát · Bảo vệ · Tự động bù</p>
+    <div class="a-ov-list">
+      <div class="a-ov"><div class="a-ov-num">01</div><div class="a-ov-body"><strong>Tự động bù, loại bỏ phạt cosφ</strong><p>Điều khiển đến 32 module tụ qua RS-485, duy trì cosφ ≥ 0.92 và triệt tiêu tiền phạt CSPK từ điện lực.</p></div></div>
+      <div class="a-ov"><div class="a-ov-num">02</div><div class="a-ov-body"><strong>Giám sát PQ toàn diện — thời gian thực</strong><p>Đo U, I, P, Q, THD, tần số, dòng thứ tự không. Lưu thống kê hơn 1 năm không mất khi mất điện.</p></div></div>
+      <div class="a-ov"><div class="a-ov-num">03</div><div class="a-ov-body"><strong>Bảo vệ đa tầng — ngăn hỏng tụ</strong><p>Tự động ngắt tụ khi quá/thấp áp, sóng hài vượt ngưỡng hoặc mất cân bằng pha.</p></div></div>
+      <div class="a-ov"><div class="a-ov-num">04</div><div class="a-ov-body"><strong>Kết nối SCADA/BMS — không cần thiết bị thêm</strong><p>RS-232/485/USB/LAN, Modbus RTU. Tùy chọn GPRS giám sát & nâng cấp firmware từ xa.</p></div></div>
+    </div>
+    <div class="a-actions">
+      <a href="#a-contact" class="a-btn-p">📞 Liên hệ báo giá</a>
+      <a href="#a-downloads" class="a-btn-s">⬇ Tải tài liệu</a>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES A -->
+<div class="a-section">
+  <div class="a-wrap">
+    <div class="a-sec-hd"><h2>Tính năng nổi bật</h2><p>Tích hợp đầy đủ trong một thiết bị lắp mặt tủ chuẩn công nghiệp</p></div>
+    <div class="a-feat-grid">
+      <div class="a-feat"><div class="a-feat-ico">🖥️</div><h3>LCD màu 5" + núm xoay</h3><p>Xem toàn bộ thông số vận hành, cài đặt ngưỡng và xem lịch sử sự kiện ngay tại tủ điện.</p></div>
+      <div class="a-feat"><div class="a-feat-ico">⚡</div><h3>3 phương thức điều khiển</h3><p>Tiếp điểm rơ-le (contactor), tín hiệu 12V (SCR/thyristor), hoặc RS-485 bus (SmartCap module).</p></div>
+      <div class="a-feat"><div class="a-feat-ico">📡</div><h3>Truyền thông đa kênh</h3><p>RS-232/485/USB/LAN + Modbus RTU. Module GPRS/Bluetooth: đọc dữ liệu & update firmware từ xa.</p></div>
+      <div class="a-feat"><div class="a-feat-ico">🔩</div><h3>Phần cứng công nghiệp</h3><p>Vận hành −25°C ÷ +65°C, chống nhiễu EMC. Lắp đặt panel-mount tiêu chuẩn, trong/ngoài trời.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPECS A -->
+<div class="a-section" id="a-specs">
+  <div class="a-wrap">
+    <div class="a-sec-hd"><h2>Thông số kỹ thuật</h2><p>Tham khảo nhanh — xem Datasheet để có đầy đủ chi tiết</p></div>
+    <div class="a-specs-tabs">
+      <div class="a-tab active" onclick="aTab('a-t1',this)">Kỹ thuật & Đo lường</div>
+      <div class="a-tab" onclick="aTab('a-t2',this)">Kết nối & Giao tiếp</div>
+    </div>
+    <div id="a-t1" class="a-tab-pane active">
+      <table class="a-specs-tbl"><thead><tr><th style="width:42%">Thông số</th><th>Giá trị / Mô tả</th></tr></thead><tbody>
+        <tr><td class="a-td-k">Điện áp nguồn làm việc</td><td class="a-td-v">AC 220 / 380 V ±20%</td></tr>
+        <tr><td class="a-td-k">Công suất tiêu thụ</td><td class="a-td-v">< 5 W</td></tr>
+        <tr><td class="a-td-k">Điện áp lấy mẫu</td><td class="a-td-v">230 V (3P4W) · 400 V (3P3W)</td></tr>
+        <tr><td class="a-td-k">Dòng điện lấy mẫu (CT)</td><td class="a-td-v">≤ 5 A (thứ cấp CT)</td></tr>
+        <tr><td class="a-td-k">Độ chính xác U / I / P</td><td class="a-td-v">Cấp 0.5</td></tr>
+        <tr><td class="a-td-k">Độ chính xác Q</td><td class="a-td-v">Cấp 1.0</td></tr>
+        <tr><td class="a-td-k">Sai số cosφ</td><td class="a-td-v">±0.01</td></tr>
+        <tr><td class="a-td-k">Sai số bảo vệ U/I/THD</td><td class="a-td-v">≤ ±1.0%</td></tr>
+        <tr><td class="a-td-k">Nhiệt độ vận hành</td><td class="a-td-v">−25°C ÷ +65°C</td></tr>
+        <tr><td class="a-td-k">Kích thước lỗ lắp</td><td class="a-td-v">258 × 128 mm (panel mount)</td></tr>
+      </tbody></table>
+    </div>
+    <div id="a-t2" class="a-tab-pane">
+      <table class="a-specs-tbl"><thead><tr><th style="width:42%">Thông số</th><th>Giá trị / Mô tả</th></tr></thead><tbody>
+        <tr><td class="a-td-k">Số module điều khiển</td><td class="a-td-v">Tối đa 32 module SmartCap (RS-485 bus)</td></tr>
+        <tr><td class="a-td-k">Cổng truyền thông</td><td class="a-td-v">RS-232 · RS-485 · USB · LAN</td></tr>
+        <tr><td class="a-td-k">Giao thức</td><td class="a-td-v">Modbus RTU · tùy chọn GPRS / Bluetooth</td></tr>
+        <tr><td class="a-td-k">Giao diện HMI</td><td class="a-td-v">LCD màu 5.0 inch + núm xoay</td></tr>
+        <tr><td class="a-td-k">Lưu trữ dữ liệu</td><td class="a-td-v">Hơn 1 năm (không mất khi mất điện)</td></tr>
+        <tr><td class="a-td-k">Kích thước tổng thể</td><td class="a-td-v">270(D) × 140(C) × 125(S) mm</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- STANDARDS A -->
+<div class="a-section">
+  <div class="a-wrap">
+    <div class="a-sec-hd"><h2>Chứng chỉ & Tiêu chuẩn</h2><p>Thiết kế tham chiếu theo các tiêu chuẩn kỹ thuật điện quốc tế</p></div>
+    <div class="a-std-grid">
+      <div class="a-std"><h3>IEC 61000-4-5</h3><p>Thử nghiệm miễn nhiễm xung sét — đảm bảo hoạt động ổn định khi có xung quá áp từ lưới hoặc đóng cắt.</p></div>
+      <div class="a-std"><h3>IEEE 519</h3><p>Tiêu chuẩn tham chiếu về giới hạn sóng hài — hỗ trợ đo và báo cáo THD theo khuyến nghị IEEE 519.</p></div>
+      <div class="a-std"><h3>Modbus RTU / RS-485</h3><p>Giao thức công nghiệp chuẩn mở — tích hợp với SCADA, BMS, phần mềm quản lý điện năng bên thứ ba.</p></div>
+      <div class="a-std"><h3>IEC 61000 (series)</h3><p>Tương thích điện từ (EMC) — tiêu chuẩn tham chiếu cho thiết bị đo và kiểm soát chất lượng điện năng.</p></div>
+      <div class="a-std"><h3>GB/T 7261</h3><p>Phương pháp thử cơ bản cho thiết bị bảo vệ — kiểm tra độ chính xác và hiệu suất bảo vệ.</p></div>
+      <div class="a-std"><h3>GB/T 15945 / GB/T 12325</h3><p>Tiêu chuẩn chất lượng điện năng — tham chiếu cho ngưỡng bảo vệ điện áp và tần số mặc định.</p></div>
+    </div>
+    <div class="a-note">⚠ <strong>Lưu ý:</strong> Thông tin trên mô tả thiết kế <em>tham chiếu theo</em> tiêu chuẩn. Vedstar không tự công bố chứng chỉ CE/RoHS trừ khi có văn bản kèm theo. Liên hệ bộ phận kỹ thuật để xác nhận.</div>
+  </div>
+</div>
+
+<!-- DOWNLOADS A -->
+<div class="a-section" id="a-downloads">
+  <div class="a-wrap">
+    <div class="a-sec-hd"><h2>Tài liệu kỹ thuật</h2><p>Dành cho kỹ sư thiết kế, tư vấn và đội thi công lắp đặt</p></div>
+    <div class="a-dl-list">
+      <a href="#" class="a-dl-row"><div class="a-dl-ic">📄</div><div class="a-dl-meta"><h3>Datasheet TDS-1531</h3><p>Thông số kỹ thuật đầy đủ <span class="a-dl-badge badge-pdf">PDF</span></p></div><div class="a-dl-arr">→</div></a>
+      <a href="#" class="a-dl-row"><div class="a-dl-ic">📘</div><div class="a-dl-meta"><h3>Manual / Hướng dẫn sử dụng</h3><p>Lắp đặt · Vận hành · Bảo trì <span class="a-dl-badge badge-pdf">PDF</span></p></div><div class="a-dl-arr">→</div></a>
+      <a href="#" class="a-dl-row"><div class="a-dl-ic">🗂️</div><div class="a-dl-meta"><h3>Catalogue SmartCap</h3><p>Danh mục model & bảng chọn dòng TDS <span class="a-dl-badge badge-pdf">PDF</span></p></div><div class="a-dl-arr">→</div></a>
+      <div class="a-dl-row disabled"><div class="a-dl-ic">📰</div><div class="a-dl-meta"><h3>Brochure giới thiệu</h3><p>Tổng quan giải pháp SmartCap <span class="a-dl-badge badge-soon">Sắp có</span></p></div><div class="a-dl-arr">→</div></div>
+      <div class="a-dl-row disabled"><div class="a-dl-ic">📐</div><div class="a-dl-meta"><h3>Bản vẽ kỹ thuật</h3><p>Kích thước lắp đặt & sơ đồ đấu nối <span class="a-dl-badge badge-soon">Sắp có</span></p></div><div class="a-dl-arr">→</div></div>
+      <a href="#" class="a-dl-row"><div class="a-dl-ic">✅</div><div class="a-dl-meta"><h3>Checklist khảo sát</h3><p>Phiếu thông tin trước tư vấn / báo giá <span class="a-dl-badge badge-docx">DOCX</span></p></div><div class="a-dl-arr">→</div></a>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT A -->
+<div class="a-contact-sec" id="a-contact">
+  <div class="a-contact-grid">
+    <div class="a-contact-left">
+      <h2>Liên hệ về sản phẩm</h2>
+      <p>VEDSTAR đồng hành cùng khách hàng xuyên suốt 3 giai đoạn: tư vấn kỹ thuật, triển khai và hậu mãi — cam kết hỗ trợ tận tâm, có mặt công trình trong 24 giờ.</p>
+      <div class="a-steps">
+        <div class="a-step"><div class="a-step-dot">★</div><div class="a-step-body"><h3>Presale</h3><p>Tư vấn kỹ thuật, lựa chọn giải pháp & cấu hình phù hợp hệ thống</p></div></div>
+        <div class="a-step"><div class="a-step-dot">★</div><div class="a-step-body"><h3>In-sale</h3><p>Hỗ trợ lắp đặt, commissioning đúng tiêu chuẩn và tiến độ dự án</p></div></div>
+        <div class="a-step"><div class="a-step-dot">★</div><div class="a-step-body"><h3>After-sale</h3><p>Bảo trì định kỳ, nâng cấp firmware, thay thế phụ tùng kịp thời</p></div></div>
+      </div>
+    </div>
+    <div class="a-form">
+      <h3>Để lại thông tin để nhận tư vấn</h3>
+      <p class="csub">Phản hồi trong vòng 24 giờ làm việc</p>
+      <div class="a-fg-row">
+        <div class="a-fg"><label>Họ và tên <em>*</em></label><input type="text" placeholder="Nguyễn Văn A"/></div>
+        <div class="a-fg"><label>Số điện thoại <em>*</em></label><input type="tel" placeholder="0912 345 678"/></div>
+      </div>
+      <div class="a-fg"><label>Email <em>*</em></label><input type="email" placeholder="email@congty.vn"/></div>
+      <div class="a-fg"><label>Sản phẩm quan tâm</label><input type="text" value="TDS-1531 – Bộ điều khiển bù CSPK hạ thế"/></div>
+      <div class="a-fg"><label>Yêu cầu tư vấn</label><textarea placeholder="Mô tả ngắn hệ thống hoặc vấn đề đang gặp…"></textarea></div>
+      <button class="a-submit">Gửi yêu cầu tư vấn</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER A -->
+<footer class="a-footer">
+  <div class="a-fgrid">
+    <div><span class="a-flogo"><span>VED</span>STAR</span><p class="a-fabout">VEDSTAR cung cấp giải pháp và thiết bị điện năng tối ưu với hơn 15 năm kinh nghiệm triển khai dự án cơ điện tại Việt Nam.</p></div>
+    <div class="a-fcol"><h4>Sản phẩm</h4><ul><li><a href="#">SmartCap</a></li><li><a href="#">APF</a></li><li><a href="#">SVG</a></li><li><a href="#">BESS</a></li></ul></div>
+    <div class="a-fcol"><h4>Dịch vụ</h4><ul><li><a href="#">Đánh giá CLĐN</a></li><li><a href="#">Đào tạo</a></li><li><a href="#">Bảo trì</a></li></ul></div>
+    <div class="a-fcol"><h4>Liên hệ</h4><ul><li><a href="#">📞 024.982.1234</a></li><li><a href="#">✉ info@vedstar.com.vn</a></li><li><a href="#">📍 Nam Từ Liêm, Hà Nội</a></li></ul></div>
+  </div>
+  <div class="a-fbottom"><span>© 2025 Công ty cổ phần VEDSTAR</span><a href="#" style="color:rgba(255,255,255,.3);text-decoration:none">Chính sách bảo mật</a></div>
+</footer>
+</div>
+</div><!-- /design-1 -->
+
+
+<!-- ══════════════════════════════════════════
+     DESIGN B — "DATA CARD"
+     Hero: full-width banner + 4 KPI cards overlay
+     Features: horizontal accordion rows
+     Specs: clean 2-col card grid
+     Signature: nền gradient đỏ-trắng chéo ở hero
+══════════════════════════════════════════ -->
+<div id="design-2" class="design-frame">
+<style>
+.b{--red:#E8272A;--dark:#1A1A1A;--text:#2D2D2D;--sub:#555;--muted:#888;--bg:#F7F8FA;--border:#E2E4E7;--white:#fff;--font:'Be Vietnam Pro',sans-serif;--max:1200px;font-family:var(--font);color:var(--text)}
+
+/* B: HERO — full-width diagonal */
+.b-hero{position:relative;overflow:hidden;min-height:480px;display:flex;align-items:flex-end;padding-bottom:80px}
+.b-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d1a1a 40%,#E8272A 100%)}
+.b-hero-pattern{position:absolute;inset:0;opacity:.06;background-image:repeating-linear-gradient(45deg,#fff 0px,#fff 1px,transparent 0px,transparent 50%);background-size:20px 20px}
+.b-hero-inner{max-width:var(--max);margin:0 auto;padding:0 5%;width:100%;position:relative;z-index:2}
+.b-cat-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 14px;font-size:11.5px;font-weight:600;color:rgba(255,255,255,.9);text-transform:uppercase;letter-spacing:.07em;margin-bottom:16px;backdrop-filter:blur(8px)}
+.b h1{font-family:'DM Serif Display',serif;font-size:clamp(32px,5vw,56px);font-weight:400;color:#fff;line-height:1.05;margin-bottom:10px}
+.b h1 em{font-style:italic;color:rgba(255,200,200,.9)}
+.b-hero-sub{font-size:15px;color:rgba(255,255,255,.65);max-width:520px;line-height:1.7;margin-bottom:28px}
+.b-hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.b-btn-p{background:#fff;color:var(--red);padding:12px 28px;border-radius:4px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s}
+.b-btn-p:hover{background:#f5f5f5;transform:translateY(-1px)}
+.b-btn-s{border:1.5px solid rgba(255,255,255,.5);color:#fff;padding:11px 24px;border-radius:4px;font-size:14px;font-weight:600;text-decoration:none;backdrop-filter:blur(4px);transition:all .2s}
+.b-btn-s:hover{background:rgba(255,255,255,.1)}
+
+/* B: KPI CARDS overlay */
+.b-kpis{max-width:var(--max);margin:-48px auto 0;padding:0 5%;position:relative;z-index:10}
+.b-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.b-kpi{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 22px;box-shadow:0 8px 32px rgba(0,0,0,.1);position:relative;overflow:hidden}
+.b-kpi::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--red)}
+.b-kpi-val{font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;color:var(--dark);display:block;line-height:1}
+.b-kpi-unit{font-size:14px;font-weight:400;color:var(--muted)}
+.b-kpi-label{font-size:12px;color:var(--muted);margin-top:6px}
+
+/* B: OVERVIEW STRIP */
+.b-ov-strip{max-width:var(--max);margin:60px auto 0;padding:0 5%}
+.b-ov-strip h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:6px}
+.b-ov-strip>.sub{font-size:13.5px;color:var(--muted);margin-bottom:32px}
+.b-ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.b-ov{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:24px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s,box-shadow .2s}
+.b-ov:hover{border-color:#f5a0a0;box-shadow:0 4px 20px rgba(232,39,42,.07)}
+.b-ov-ico{width:44px;height:44px;border-radius:10px;background:#fef0f0;border:1px solid #fcc;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.b-ov strong{display:block;font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.b-ov p{font-size:13px;color:var(--sub);line-height:1.65}
+
+/* B: FEATURES accordion-row */
+.b-feat-sec{max-width:var(--max);margin:60px auto 0;padding:0 5%}
+.b-feat-sec h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:6px}
+.b-feat-sec>.sub{font-size:13.5px;color:var(--muted);margin-bottom:28px}
+.b-feat-rows{border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.b-feat-row{display:grid;grid-template-columns:52px 1fr;border-bottom:1px solid var(--border);background:#fff;transition:background .2s}
+.b-feat-row:hover{background:var(--bg)}
+.b-feat-row:last-child{border-bottom:none}
+.b-feat-num{background:var(--red);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.b-feat-body{padding:20px 24px}
+.b-feat-body h3{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.b-feat-body p{font-size:13px;color:var(--sub);line-height:1.65}
+
+/* B: SPECS — card grid */
+.b-specs-sec{background:var(--bg);padding:60px 5%;margin-top:60px}
+.b-specs-inner{max-width:var(--max);margin:0 auto}
+.b-specs-inner h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:6px}
+.b-specs-inner>.sub{font-size:13.5px;color:var(--muted);margin-bottom:28px}
+.b-spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.b-spec-card{background:#fff;border:1px solid var(--border);border-radius:8px;padding:18px 20px}
+.b-spec-card .sk{font-size:12px;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.b-spec-card .sv{font-size:16px;font-weight:700;color:var(--dark)}
+.b-spec-card .sd{font-size:12.5px;color:var(--sub);margin-top:3px}
+
+/* B: reuse A's standards + downloads + contact + footer styles with .b-* prefix */
+.b-std-sec{max-width:var(--max);margin:60px auto;padding:0 5%}
+.b-std-sec h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:6px}
+.b-std-sec>.sub{font-size:13.5px;color:var(--muted);margin-bottom:28px}
+.b-std-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.b-std{border:1px solid var(--border);border-radius:8px;padding:18px 20px;transition:border-color .2s}
+.b-std:hover{border-color:#f5a0a0}
+.b-std h3{font-size:13.5px;font-weight:700;color:var(--dark);margin-bottom:5px}
+.b-std p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.b-note{background:#fffbf0;border:1px solid #f6d76b;border-left:4px solid #f0b429;border-radius:6px;padding:14px 18px;margin-top:14px;font-size:13px;color:#6b4f00;line-height:1.65}
+.b-dl-sec{max-width:var(--max);margin:0 auto 60px;padding:0 5%}
+.b-dl-sec h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:6px}
+.b-dl-sec>.sub{font-size:13.5px;color:var(--muted);margin-bottom:28px}
+.b-dl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.b-dl-card{border:1px solid var(--border);border-radius:8px;padding:20px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;background:#fff}
+.b-dl-card:hover{border-color:var(--red);background:#fef0f0}
+.b-dl-card.disabled{opacity:.45;cursor:not-allowed}
+.b-dl-card.disabled:hover{border-color:var(--border);background:#fff}
+.b-dl-ico{width:44px;height:44px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.b-dl-card:hover .b-dl-ico{background:#fddcdc}
+.b-dl-card.disabled:hover .b-dl-ico{background:var(--bg)}
+.b-dl-card h3{font-size:13.5px;font-weight:600;color:var(--dark);margin-bottom:3px}
+.b-dl-card p{font-size:12px;color:var(--muted)}
+.b-dl-badge{font-size:11px;font-weight:600;padding:2px 7px;border-radius:3px;margin-left:4px}
+.b-contact-sec{background:var(--bg);border-top:1px solid var(--border);padding:60px 5%}
+.b-contact-grid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+.b-contact-left h2{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--dark);margin-bottom:10px}
+.b-contact-left>p{font-size:14px;color:var(--sub);line-height:1.75;margin-bottom:28px}
+.b-steps{display:flex;flex-direction:column;gap:20px}
+.b-step{display:flex;gap:16px}
+.b-step-dot{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.b-step-body h3{font-size:14px;font-weight:600;color:var(--dark)}
+.b-step-body p{font-size:13px;color:var(--sub);line-height:1.5;margin-top:2px}
+.b-form{background:#fff;border:1px solid var(--border);border-radius:10px;padding:32px}
+.b-form h3{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.b-form .csub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.b-fg{margin-bottom:15px}
+.b-fg label{display:block;font-size:13px;font-weight:500;margin-bottom:5px}
+.b-fg label em{color:var(--red);font-style:normal}
+.b-fg input,.b-fg textarea{width:100%;border:1px solid var(--border);border-radius:5px;padding:10px 13px;font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.b-fg input:focus,.b-fg textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,39,42,.08)}
+.b-fg textarea{resize:vertical;min-height:88px}
+.b-fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.b-submit{width:100%;background:var(--red);color:#fff;border:none;border-radius:5px;padding:13px;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:background .2s}
+.b-submit:hover{background:#C5181B}
+.b-footer{background:#111;color:rgba(255,255,255,.55);padding:48px 5% 24px}
+.b-fgrid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:40px}
+.b-flogo{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;margin-bottom:14px;display:block}
+.b-flogo em{color:#E8272A;font-style:normal}
+.b-fabout{font-size:13px;line-height:1.75;color:rgba(255,255,255,.4)}
+.b-fcol h4{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.b-fcol ul{list-style:none}
+.b-fcol li{margin-bottom:8px}
+.b-fcol a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none}
+.b-fcol a:hover{color:#fff}
+.b-fbottom{max-width:var(--max);margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:12px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.b-kpi-grid{grid-template-columns:1fr 1fr}.b-ov-grid{grid-template-columns:1fr}.b-spec-grid{grid-template-columns:1fr 1fr}.b-std-grid{grid-template-columns:1fr 1fr}.b-dl-grid{grid-template-columns:1fr 1fr}.b-contact-grid{grid-template-columns:1fr;gap:36px}.b-fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.b-kpi-grid{grid-template-columns:1fr 1fr}.b-spec-grid{grid-template-columns:1fr}.b-std-grid{grid-template-columns:1fr}.b-dl-grid{grid-template-columns:1fr}.b-fg-row{grid-template-columns:1fr}}
+</style>
+
+<!-- NAV B -->
+<div class="vs-topbar"><span>Công ty cổ phần VEDSTAR</span><div style="display:flex;gap:20px"><a href="#">info@vedstar.com.vn</a><a href="#">Hotline: 024.982.1234</a></div></div>
+<header class="vs-header"><div class="vs-hdr-in"><a class="vs-logo" href="#"><span>VED</span>STAR</a><nav class="vs-nav"><a href="#" class="active">Sản phẩm & Giải pháp</a><a href="#">Dịch vụ</a><a href="#">Về Vedstar</a><a href="#">Tin tức</a><a href="#b-contact" class="vs-btn-consult">Tư vấn</a></nav></div></header>
+<div class="vs-breadcrumb"><div class="vs-bc"><a href="#">Trang chủ</a><span class="vs-bc-sep">›</span><a href="#">Sản phẩm</a><span class="vs-bc-sep">›</span><a href="#">SmartCap</a><span class="vs-bc-sep">›</span><span class="vs-bc-cur">TDS-1531</span></div></div>
+
+<div class="b">
+<!-- HERO B -->
+<div class="b-hero">
+  <div class="b-hero-bg"></div>
+  <div class="b-hero-pattern"></div>
+  <div class="b-hero-inner">
+    <div class="b-cat-badge">⚡ SmartCap™ — Bù công suất phản kháng</div>
+    <h1>TDS-1531<br><em>Reactive Power Controller</em></h1>
+    <p class="b-hero-sub">Bộ điều khiển tụ bù hạ thế toàn diện — đo lường, giám sát, bảo vệ và tự động bù công suất phản kháng trong một thiết bị duy nhất.</p>
+    <div class="b-hero-actions">
+      <a href="#b-contact" class="b-btn-p">📞 Liên hệ báo giá</a>
+      <a href="#b-downloads" class="b-btn-s">⬇ Tải tài liệu</a>
+    </div>
+  </div>
+</div>
+
+<!-- KPI CARDS B -->
+<div class="b-kpis">
+  <div class="b-kpi-grid">
+    <div class="b-kpi"><span class="b-kpi-val">32 <span class="b-kpi-unit">module</span></span><div class="b-kpi-label">Số module điều khiển tối đa</div></div>
+    <div class="b-kpi"><span class="b-kpi-val">Cấp <span class="b-kpi-unit">0.5</span></span><div class="b-kpi-label">Độ chính xác đo U / I / P</div></div>
+    <div class="b-kpi"><span class="b-kpi-val">&gt;1 <span class="b-kpi-unit">năm</span></span><div class="b-kpi-label">Lưu trữ dữ liệu thống kê</div></div>
+    <div class="b-kpi"><span class="b-kpi-val">−25 <span class="b-kpi-unit">÷+65°C</span></span><div class="b-kpi-label">Dải nhiệt độ vận hành</div></div>
+  </div>
+</div>
+
+<!-- OVERVIEW B -->
+<div class="b-ov-strip">
+  <h2>Giới thiệu sản phẩm & Vấn đề giải quyết</h2>
+  <p class="sub">TDS-1531 là bộ điều khiển và giám sát bù CSPK hạ thế tích hợp — giải pháp trung tâm cho hệ thống SmartCap™</p>
+  <div class="b-ov-grid">
+    <div class="b-ov"><div class="b-ov-ico">🎛️</div><div><strong>Tự động bù, loại bỏ phạt cosφ</strong><p>Điều khiển đến 32 module SmartCap qua RS-485, duy trì cosφ tại ngưỡng cài đặt, triệt tiêu hoàn toàn tiền phạt CSPK.</p></div></div>
+    <div class="b-ov"><div class="b-ov-ico">📊</div><div><strong>Giám sát PQ toàn diện theo thời gian thực</strong><p>Đo U, I, P, Q, THD, tần số — lưu thống kê theo giờ, cực trị hàng ngày hơn 1 năm, không mất khi mất điện.</p></div></div>
+    <div class="b-ov"><div class="b-ov-ico">🛡️</div><div><strong>Bảo vệ đa tầng — tránh hỏng tụ</strong><p>Ngắt tụ tự động khi quá/thấp áp, sóng hài vượt ngưỡng, mất cân bằng pha — bảo vệ trước khi hư hỏng xảy ra.</p></div></div>
+    <div class="b-ov"><div class="b-ov-ico">🌐</div><div><strong>Kết nối SCADA/BMS đa giao thức</strong><p>RS-232/485/USB/LAN, Modbus RTU. Tùy chọn GPRS/Bluetooth: giám sát & nâng cấp firmware hoàn toàn từ xa.</p></div></div>
+  </div>
+</div>
+
+<!-- FEATURES B -->
+<div class="b-feat-sec">
+  <h2>Tính năng nổi bật</h2>
+  <p class="sub">Tích hợp đầy đủ trong một thiết bị lắp mặt tủ chuẩn công nghiệp</p>
+  <div class="b-feat-rows">
+    <div class="b-feat-row"><div class="b-feat-num">1</div><div class="b-feat-body"><h3>LCD màu 5 inch + núm xoay</h3><p>Xem thông số vận hành, cài đặt ngưỡng bảo vệ và tra lịch sử sự kiện trực tiếp tại tủ điện.</p></div></div>
+    <div class="b-feat-row"><div class="b-feat-num">2</div><div class="b-feat-body"><h3>3 phương thức điều khiển đầu ra</h3><p>Tiếp điểm rơ-le (AC 5A/380V) cho contactor, tín hiệu 12V cho SCR/thyristor, và RS-485 bus cho module SmartCap — tối đa 32 module.</p></div></div>
+    <div class="b-feat-row"><div class="b-feat-num">3</div><div class="b-feat-body"><h3>Truyền thông đa kênh + nâng cấp từ xa</h3><p>RS-232/RS-485/USB/LAN + Modbus RTU. Module GPRS/Bluetooth tùy chọn cho đọc dữ liệu và cập nhật firmware từ xa không cần đến công trình.</p></div></div>
+    <div class="b-feat-row"><div class="b-feat-num">4</div><div class="b-feat-body"><h3>Phần cứng công nghiệp, dải nhiệt rộng</h3><p>Vận hành −25°C ÷ +65°C, chống nhiễu EMC. Lắp đặt panel-mount tiêu chuẩn, phù hợp môi trường trong và ngoài trời.</p></div></div>
+  </div>
+</div>
+
+<!-- SPECS B -->
+<div class="b-specs-sec" id="b-specs">
+  <div class="b-specs-inner">
+    <h2>Thông số kỹ thuật cơ bản</h2>
+    <p class="sub">Tham khảo nhanh — xem Datasheet đầy đủ để có tất cả chi tiết kỹ thuật</p>
+    <div class="b-spec-grid">
+      <div class="b-spec-card"><div class="sk">Điện áp nguồn</div><div class="sv">AC 220/380 V</div><div class="sd">Độ lệch cho phép ±20%</div></div>
+      <div class="b-spec-card"><div class="sk">Điện áp lấy mẫu</div><div class="sv">230 V / 400 V</div><div class="sd">3P4W / 3P3W</div></div>
+      <div class="b-spec-card"><div class="sk">Dòng điện lấy mẫu</div><div class="sv">≤ 5 A</div><div class="sd">Thứ cấp CT</div></div>
+      <div class="b-spec-card"><div class="sk">Độ chính xác đo U/I/P</div><div class="sv">Cấp 0.5</div><div class="sd">Sai số cosφ: ±0.01</div></div>
+      <div class="b-spec-card"><div class="sk">Độ chính xác đo Q</div><div class="sv">Cấp 1.0</div><div class="sd">Sai số bảo vệ ≤ ±1.0%</div></div>
+      <div class="b-spec-card"><div class="sk">Module điều khiển</div><div class="sv">Tối đa 32</div><div class="sd">SmartCap qua RS-485</div></div>
+      <div class="b-spec-card"><div class="sk">Truyền thông</div><div class="sv">RS-232/485/USB/LAN</div><div class="sd">Modbus RTU · GPRS tùy chọn</div></div>
+      <div class="b-spec-card"><div class="sk">Màn hình HMI</div><div class="sv">LCD màu 5.0"</div><div class="sd">Núm xoay · Cảm biến hồng ngoại</div></div>
+      <div class="b-spec-card"><div class="sk">Lưu trữ dữ liệu</div><div class="sv">&gt; 1 năm</div><div class="sd">Không mất khi mất điện</div></div>
+      <div class="b-spec-card"><div class="sk">Công suất tiêu thụ</div><div class="sv">&lt; 5 W</div><div class="sd">Tiêu thụ thấp</div></div>
+      <div class="b-spec-card"><div class="sk">Nhiệt độ vận hành</div><div class="sv">−25°C ÷ +65°C</div><div class="sd">Chuẩn công nghiệp</div></div>
+      <div class="b-spec-card"><div class="sk">Kích thước lỗ lắp</div><div class="sv">258 × 128 mm</div><div class="sd">Panel-mount mặt trước tủ</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- STANDARDS B -->
+<div class="b-std-sec">
+  <h2>Chứng chỉ & Tiêu chuẩn</h2>
+  <p class="sub">Thiết kế tham chiếu theo các tiêu chuẩn kỹ thuật điện quốc tế</p>
+  <div class="b-std-grid">
+    <div class="b-std"><h3>IEC 61000-4-5</h3><p>Thử nghiệm miễn nhiễm xung sét — đảm bảo hoạt động ổn định khi có xung quá áp từ lưới.</p></div>
+    <div class="b-std"><h3>IEEE 519</h3><p>Tiêu chuẩn tham chiếu về giới hạn sóng hài — hỗ trợ đo và báo cáo THD theo IEEE 519.</p></div>
+    <div class="b-std"><h3>Modbus RTU / RS-485</h3><p>Giao thức công nghiệp chuẩn mở — tích hợp với SCADA, BMS và phần mềm quản lý điện năng.</p></div>
+    <div class="b-std"><h3>IEC 61000 (series)</h3><p>Tương thích điện từ (EMC) — tiêu chuẩn cho thiết bị đo và kiểm soát chất lượng điện năng.</p></div>
+    <div class="b-std"><h3>GB/T 7261</h3><p>Phương pháp thử cho thiết bị bảo vệ — kiểm tra độ chính xác và hiệu suất bảo vệ của TDS-1531.</p></div>
+    <div class="b-std"><h3>GB/T 15945 / GB/T 12325</h3><p>Tiêu chuẩn chất lượng điện năng — ngưỡng bảo vệ điện áp và giám sát tần số mặc định.</p></div>
+  </div>
+  <div class="b-note">⚠ <strong>Lưu ý:</strong> Thông tin trên mô tả thiết kế <em>tham chiếu theo</em> tiêu chuẩn. Vedstar không tự công bố chứng chỉ CE/RoHS trừ khi có văn bản kèm theo. Liên hệ bộ phận kỹ thuật Vedstar để xác nhận.</div>
+</div>
+
+<!-- DOWNLOADS B -->
+<div class="b-dl-sec" id="b-downloads">
+  <h2>Tài liệu kỹ thuật</h2>
+  <p class="sub">Dành cho kỹ sư thiết kế, tư vấn và đội thi công lắp đặt</p>
+  <div class="b-dl-grid">
+    <a href="#" class="b-dl-card"><div class="b-dl-ico">📄</div><div><h3>Datasheet TDS-1531</h3><p>Thông số đầy đủ <span class="b-dl-badge badge-pdf">PDF</span></p></div></a>
+    <a href="#" class="b-dl-card"><div class="b-dl-ico">📘</div><div><h3>Manual / Hướng dẫn sử dụng</h3><p>Lắp đặt · Vận hành <span class="b-dl-badge badge-pdf">PDF</span></p></div></a>
+    <a href="#" class="b-dl-card"><div class="b-dl-ico">🗂️</div><div><h3>Catalogue SmartCap</h3><p>Danh mục model & bảng chọn <span class="b-dl-badge badge-pdf">PDF</span></p></div></a>
+    <div class="b-dl-card disabled"><div class="b-dl-ico">📰</div><div><h3>Brochure giới thiệu</h3><p>Tổng quan giải pháp <span class="b-dl-badge badge-soon">Sắp có</span></p></div></div>
+    <div class="b-dl-card disabled"><div class="b-dl-ico">📐</div><div><h3>Bản vẽ kỹ thuật</h3><p>Kích thước & sơ đồ đấu nối <span class="b-dl-badge badge-soon">Sắp có</span></p></div></div>
+    <a href="#" class="b-dl-card"><div class="b-dl-ico">✅</div><div><h3>Checklist khảo sát</h3><p>Phiếu thông tin tư vấn <span class="b-dl-badge badge-docx">DOCX</span></p></div></a>
+  </div>
+</div>
+
+<!-- CONTACT B -->
+<div class="b-contact-sec" id="b-contact">
+  <div class="b-contact-grid">
+    <div class="b-contact-left">
+      <h2>Liên hệ về sản phẩm</h2>
+      <p>VEDSTAR đồng hành xuyên suốt 3 giai đoạn — tư vấn kỹ thuật, triển khai và hậu mãi. Cam kết hỗ trợ tận tâm, có mặt tại công trình trong 24 giờ.</p>
+      <div class="b-steps">
+        <div class="b-step"><div class="b-step-dot">★</div><div class="b-step-body"><h3>Presale</h3><p>Tư vấn kỹ thuật, lựa chọn giải pháp & cấu hình thiết bị phù hợp</p></div></div>
+        <div class="b-step"><div class="b-step-dot">★</div><div class="b-step-body"><h3>In-sale</h3><p>Hỗ trợ triển khai, lắp đặt, commissioning đúng tiêu chuẩn</p></div></div>
+        <div class="b-step"><div class="b-step-dot">★</div><div class="b-step-body"><h3>After-sale</h3><p>Bảo trì định kỳ, nâng cấp firmware, thay thế phụ tùng kịp thời</p></div></div>
+      </div>
+    </div>
+    <div class="b-form">
+      <h3>Để lại thông tin để nhận tư vấn</h3>
+      <p class="csub">Phản hồi trong vòng 24 giờ làm việc</p>
+      <div class="b-fg-row">
+        <div class="b-fg"><label>Họ và tên <em>*</em></label><input type="text" placeholder="Nguyễn Văn A"/></div>
+        <div class="b-fg"><label>Số điện thoại <em>*</em></label><input type="tel" placeholder="0912 345 678"/></div>
+      </div>
+      <div class="b-fg"><label>Email <em>*</em></label><input type="email" placeholder="email@congty.vn"/></div>
+      <div class="b-fg"><label>Sản phẩm quan tâm</label><input type="text" value="TDS-1531 – Bộ điều khiển bù CSPK hạ thế"/></div>
+      <div class="b-fg"><label>Yêu cầu tư vấn</label><textarea placeholder="Mô tả ngắn hệ thống hoặc vấn đề đang gặp…"></textarea></div>
+      <button class="b-submit">Gửi yêu cầu tư vấn</button>
+    </div>
+  </div>
+</div>
+<footer class="b-footer">
+  <div class="b-fgrid"><div><span class="b-flogo">VED<em>STAR</em></span><p class="b-fabout">VEDSTAR cung cấp giải pháp và thiết bị điện năng tối ưu với hơn 15 năm kinh nghiệm triển khai dự án cơ điện tại Việt Nam.</p></div><div class="b-fcol"><h4>Sản phẩm</h4><ul><li><a href="#">SmartCap</a></li><li><a href="#">APF</a></li><li><a href="#">SVG</a></li><li><a href="#">BESS</a></li></ul></div><div class="b-fcol"><h4>Dịch vụ</h4><ul><li><a href="#">Đánh giá CLĐN</a></li><li><a href="#">Đào tạo</a></li><li><a href="#">Bảo trì</a></li></ul></div><div class="b-fcol"><h4>Liên hệ</h4><ul><li><a href="#">📞 024.982.1234</a></li><li><a href="#">✉ info@vedstar.com.vn</a></li><li><a href="#">📍 Nam Từ Liêm, Hà Nội</a></li></ul></div></div>
+  <div class="b-fbottom"><span>© 2025 Công ty cổ phần VEDSTAR</span><a href="#" style="color:rgba(255,255,255,.3);text-decoration:none">Chính sách bảo mật</a></div>
+</footer>
+</div>
+</div><!-- /design-2 -->
+
+
+<!-- ══════════════════════════════════════════
+     DESIGN C — "FULL-WIDTH STORY"
+     Hero: full-bleed text-only với số lớn
+     Layout: sticky sidebar scroll với nội dung
+     Features: inline tag chips + expand-on-hover
+     Signature: sticky left nav tracking sections
+══════════════════════════════════════════ -->
+<div id="design-3" class="design-frame">
+<style>
+.c{--red:#E8272A;--dark:#1A1A1A;--text:#2D2D2D;--sub:#555;--muted:#888;--bg:#F7F8FA;--border:#E2E4E7;--white:#fff;--font:'Be Vietnam Pro',sans-serif;--max:1200px;font-family:var(--font);color:var(--text)}
+
+/* C: HERO — editorial / broadsheet style */
+.c-hero{background:#fff;padding:60px 5% 0;border-bottom:1px solid var(--border)}
+.c-hero-inner{max-width:var(--max);margin:0 auto}
+.c-eyebrow{font-size:11.5px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.1em;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.c-eyebrow::before{content:'';width:24px;height:2px;background:var(--red)}
+.c-hero-grid{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;padding-bottom:40px;border-bottom:2px solid var(--dark)}
+.c h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,6vw,72px);font-weight:400;color:var(--dark);line-height:1.0;letter-spacing:-.02em}
+.c h1 span{color:var(--red)}
+.c-hero-aside{text-align:right}
+.c-hero-aside .big-num{font-family:'Space Grotesk',sans-serif;font-size:clamp(40px,6vw,80px);font-weight:700;color:var(--dark);line-height:1;display:block}
+.c-hero-aside .big-unit{font-size:13px;color:var(--muted);display:block;margin-top:4px}
+.c-hero-tagstrip{display:flex;align-items:center;gap:12px;padding:16px 0;flex-wrap:wrap}
+.c-chip{background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:5px 14px;font-size:12.5px;font-weight:500;color:var(--sub)}
+.c-chip.active{background:var(--red);border-color:var(--red);color:#fff}
+.c-hero-actions{display:flex;gap:12px;padding-bottom:32px;flex-wrap:wrap}
+.c-btn-p{background:var(--red);color:#fff;padding:11px 28px;border-radius:4px;font-size:14px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
+.c-btn-p:hover{background:#C5181B;transform:translateY(-1px)}
+.c-btn-s{border:1.5px solid var(--border);color:var(--sub);padding:10px 24px;border-radius:4px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s}
+.c-btn-s:hover{border-color:var(--red);color:var(--red)}
+
+/* C: MAIN BODY — sticky sidebar + scroll content */
+.c-body{max-width:var(--max);margin:0 auto;padding:0 5%;display:grid;grid-template-columns:200px 1fr;gap:60px;align-items:start}
+.c-sidebar{position:sticky;top:120px;padding:32px 0}
+.c-sidebar-nav{display:flex;flex-direction:column;gap:0}
+.c-snav-item{padding:10px 0 10px 16px;border-left:2px solid var(--border);font-size:13px;color:var(--muted);cursor:pointer;transition:all .2s;text-decoration:none}
+.c-snav-item:hover,.c-snav-item.active{border-left-color:var(--red);color:var(--red);font-weight:600}
+.c-content{padding:40px 0 60px}
+
+/* C: overview */
+.c-sec{margin-bottom:60px;padding-bottom:60px;border-bottom:1px solid var(--border)}
+.c-sec:last-child{border-bottom:none}
+.c-sec-hd{margin-bottom:28px}
+.c-sec-hd h2{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,30px);font-weight:400;color:var(--dark)}
+.c-sec-hd p{font-size:13.5px;color:var(--muted);margin-top:5px}
+.c-ov-list{display:flex;flex-direction:column;gap:1px;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.c-ov-item{background:#fff;padding:22px 24px;display:flex;gap:20px;align-items:flex-start;border-bottom:1px solid var(--border);transition:background .2s}
+.c-ov-item:last-child{border-bottom:none}
+.c-ov-item:hover{background:var(--bg)}
+.c-ov-num{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;color:#e8e8e8;line-height:1;flex-shrink:0;width:44px}
+.c-ov-txt strong{display:block;font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.c-ov-txt p{font-size:13.5px;color:var(--sub);line-height:1.65}
+
+/* C: features inline chips */
+.c-feat-list{display:flex;flex-direction:column;gap:16px}
+.c-feat-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px 22px;display:flex;gap:16px;align-items:flex-start;transition:border-color .2s,box-shadow .2s}
+.c-feat-item:hover{border-color:#f5a0a0;box-shadow:0 4px 16px rgba(232,39,42,.07)}
+.c-feat-dot{width:8px;height:8px;background:var(--red);border-radius:50%;flex-shrink:0;margin-top:7px}
+.c-feat-item h3{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:4px}
+.c-feat-item p{font-size:13.5px;color:var(--sub);line-height:1.65}
+
+/* C: specs table */
+.c-specs-tbl{width:100%;border-collapse:collapse;border:1px solid var(--border);border-radius:8px;overflow:hidden;font-size:14px}
+.c-specs-tbl thead th{background:var(--dark);color:#fff;padding:11px 16px;text-align:left;font-size:12.5px;font-weight:600;letter-spacing:.04em}
+.c-specs-tbl tbody tr:nth-child(even){background:var(--bg)}
+.c-specs-tbl tbody tr:hover{background:#fef0f0}
+.c-specs-tbl td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:middle}
+.c-specs-tbl tr:last-child td{border-bottom:none}
+.c-td-k{color:var(--muted);font-weight:500;width:42%}
+.c-td-v{color:var(--dark);font-weight:600}
+
+/* C: standards */
+.c-std-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.c-std{border:1px solid var(--border);border-radius:8px;padding:16px 18px;transition:border-color .2s}
+.c-std:hover{border-color:#f5a0a0}
+.c-std h3{font-size:13px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.c-std p{font-size:12.5px;color:var(--sub);line-height:1.6}
+.c-note{background:#fffbf0;border:1px solid #f6d76b;border-left:4px solid #f0b429;border-radius:6px;padding:13px 18px;margin-top:14px;font-size:13px;color:#6b4f00;line-height:1.65}
+
+/* C: downloads 2-col */
+.c-dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.c-dl-row{display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit}
+.c-dl-row:hover{border-color:var(--red);background:#fef0f0}
+.c-dl-row.disabled{opacity:.45;cursor:not-allowed}
+.c-dl-row.disabled:hover{border-color:var(--border);background:#fff}
+.c-dl-ic{width:40px;height:40px;border-radius:8px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.c-dl-row:hover .c-dl-ic{background:#fddcdc}
+.c-dl-row.disabled:hover .c-dl-ic{background:var(--bg)}
+.c-dl-meta h3{font-size:13.5px;font-weight:600;color:var(--dark)}
+.c-dl-meta p{font-size:12px;color:var(--muted);margin-top:2px}
+.c-dl-arr{margin-left:auto;color:var(--muted);transition:all .2s}
+.c-dl-row:hover .c-dl-arr{color:var(--red);transform:translateX(3px)}
+
+/* C: contact */
+.c-contact-sec{background:var(--bg);border-top:1px solid var(--border);padding:60px 5%}
+.c-contact-grid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1.1fr;gap:64px;align-items:start}
+.c-contact-left h2{font-family:'DM Serif Display',serif;font-size:clamp(22px,3vw,28px);font-weight:400;color:var(--dark);margin-bottom:10px}
+.c-contact-left>p{font-size:14px;color:var(--sub);line-height:1.75;margin-bottom:28px}
+.c-steps{display:flex;flex-direction:column;gap:20px}
+.c-step{display:flex;gap:16px}
+.c-step-dot{width:40px;height:40px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex-shrink:0}
+.c-step-body h3{font-size:14px;font-weight:600;color:var(--dark)}
+.c-step-body p{font-size:13px;color:var(--sub);line-height:1.5;margin-top:2px}
+.c-form{background:#fff;border:1px solid var(--border);border-radius:10px;padding:32px}
+.c-form h3{font-size:17px;font-weight:700;color:var(--dark);margin-bottom:4px}
+.c-form .csub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.c-fg{margin-bottom:15px}
+.c-fg label{display:block;font-size:13px;font-weight:500;margin-bottom:5px}
+.c-fg label em{color:var(--red);font-style:normal}
+.c-fg input,.c-fg textarea{width:100%;border:1px solid var(--border);border-radius:5px;padding:10px 13px;font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.c-fg input:focus,.c-fg textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,39,42,.08)}
+.c-fg textarea{resize:vertical;min-height:88px}
+.c-fg-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.c-submit{width:100%;background:var(--red);color:#fff;border:none;border-radius:5px;padding:13px;font-family:var(--font);font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:background .2s}
+.c-submit:hover{background:#C5181B}
+.c-footer{background:#111;color:rgba(255,255,255,.55);padding:48px 5% 24px}
+.c-fgrid{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:40px;margin-bottom:40px}
+.c-flogo{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:14px;display:block}
+.c-fabout{font-size:13px;line-height:1.75;color:rgba(255,255,255,.4)}
+.c-fcol h4{font-size:12.5px;font-weight:700;color:rgba(255,255,255,.9);margin-bottom:14px;text-transform:uppercase;letter-spacing:.05em}
+.c-fcol ul{list-style:none}
+.c-fcol li{margin-bottom:8px}
+.c-fcol a{font-size:13px;color:rgba(255,255,255,.4);text-decoration:none}
+.c-fcol a:hover{color:#fff}
+.c-fbottom{max-width:var(--max);margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;font-size:12px;color:rgba(255,255,255,.3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media(max-width:900px){.c-body{grid-template-columns:1fr}.c-sidebar{display:none}.c-std-grid{grid-template-columns:1fr}.c-dl-grid{grid-template-columns:1fr}.c-contact-grid{grid-template-columns:1fr;gap:36px}.c-fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.c-fg-row{grid-template-columns:1fr}.c-hero-grid{grid-template-columns:1fr}}
+</style>
+
+<!-- NAV C -->
+<div class="vs-topbar"><span>Công ty cổ phần VEDSTAR</span><div style="display:flex;gap:20px"><a href="#">info@vedstar.com.vn</a><a href="#">Hotline: 024.982.1234</a></div></div>
+<header class="vs-header"><div class="vs-hdr-in"><a class="vs-logo" href="#"><span>VED</span>STAR</a><nav class="vs-nav"><a href="#" class="active">Sản phẩm & Giải pháp</a><a href="#">Dịch vụ</a><a href="#">Về Vedstar</a><a href="#">Tin tức</a><a href="#c-contact" class="vs-btn-consult">Tư vấn</a></nav></div></header>
+<div class="vs-breadcrumb"><div class="vs-bc"><a href="#">Trang chủ</a><span class="vs-bc-sep">›</span><a href="#">Sản phẩm</a><span class="vs-bc-sep">›</span><a href="#">SmartCap</a><span class="vs-bc-sep">›</span><span class="vs-bc-cur">TDS-1531</span></div></div>
+
+<div class="c">
+<!-- HERO C -->
+<div class="c-hero">
+  <div class="c-hero-inner">
+    <div class="c-eyebrow">SmartCap™ — Bộ điều khiển bù CSPK hạ thế</div>
+    <div class="c-hero-grid">
+      <h1>TDS-1531<br><span>Reactive Power</span><br>Controller</h1>
+      <div class="c-hero-aside">
+        <span class="big-num">32</span><span class="big-unit">module tối đa</span>
+      </div>
+    </div>
+    <div class="c-hero-tagstrip">
+      <span class="c-chip active">Đo lường PQ</span>
+      <span class="c-chip active">Điều khiển tụ bù</span>
+      <span class="c-chip active">Bảo vệ đa tầng</span>
+      <span class="c-chip active">SCADA / BMS</span>
+      <span class="c-chip">Modbus RTU</span>
+      <span class="c-chip">LCD 5"</span>
+      <span class="c-chip">GPRS tùy chọn</span>
+    </div>
+    <div class="c-hero-actions">
+      <a href="#c-contact" class="c-btn-p">📞 Liên hệ nhận báo giá</a>
+      <a href="#c-downloads" class="c-btn-s">⬇ Tải tài liệu kỹ thuật</a>
+    </div>
+  </div>
+</div>
+
+<!-- BODY C -->
+<div class="c-body">
+  <!-- Sticky sidebar nav -->
+  <div class="c-sidebar">
+    <div class="c-sidebar-nav">
+      <a href="#c-overview" class="c-snav-item active">Giới thiệu</a>
+      <a href="#c-features" class="c-snav-item">Tính năng</a>
+      <a href="#c-specs" class="c-snav-item">Thông số KT</a>
+      <a href="#c-standards" class="c-snav-item">Tiêu chuẩn</a>
+      <a href="#c-downloads" class="c-snav-item">Tài liệu</a>
+    </div>
+  </div>
+
+  <!-- Scrollable content -->
+  <div class="c-content">
+
+    <!-- OVERVIEW C -->
+    <div class="c-sec" id="c-overview">
+      <div class="c-sec-hd"><h2>Giới thiệu & Vấn đề giải quyết</h2><p>TDS-1531 là bộ điều khiển tụ bù CSPK hạ thế tích hợp — giải quyết 4 bài toán cốt lõi trong vận hành điện hạ thế</p></div>
+      <div class="c-ov-list">
+        <div class="c-ov-item"><div class="c-ov-num">01</div><div class="c-ov-txt"><strong>Tự động bù, loại bỏ phạt cosφ</strong><p>Điều khiển đến 32 module SmartCap qua RS-485, duy trì cosφ tại ngưỡng cài đặt, triệt tiêu hoàn toàn tiền phạt công suất phản kháng từ điện lực, giảm tổn thất đường dây.</p></div></div>
+        <div class="c-ov-item"><div class="c-ov-num">02</div><div class="c-ov-txt"><strong>Giám sát chất lượng điện năng toàn diện</strong><p>Đo đồng thời U, I, P, Q, THD, tần số và dòng thứ tự không theo thời gian thực. Lưu thống kê theo giờ, cực trị hàng ngày hơn 1 năm — không mất dữ liệu khi mất điện.</p></div></div>
+        <div class="c-ov-item"><div class="c-ov-num">03</div><div class="c-ov-txt"><strong>Bảo vệ đa tầng — tránh hỏng tụ</strong><p>Tự động ngắt tụ khi quá áp, thấp áp, sóng hài vượt ngưỡng hoặc mất cân bằng pha. Bảo vệ trước khi hư hỏng xảy ra — giải quyết bài toán tụ bù hỏng thường xuyên trong môi trường có tải phi tuyến.</p></div></div>
+        <div class="c-ov-item"><div class="c-ov-num">04</div><div class="c-ov-txt"><strong>Kết nối SCADA/BMS — không cần thiết bị thêm</strong><p>RS-232/485/USB/LAN, Modbus RTU chuẩn mở. Module GPRS/Bluetooth tùy chọn cho giám sát từ xa và cập nhật firmware mà không cần đến công trình.</p></div></div>
+      </div>
+    </div>
+
+    <!-- FEATURES C -->
+    <div class="c-sec" id="c-features">
+      <div class="c-sec-hd"><h2>Tính năng nổi bật</h2><p>Tích hợp đầy đủ trong một thiết bị lắp mặt tủ chuẩn công nghiệp</p></div>
+      <div class="c-feat-list">
+        <div class="c-feat-item"><div class="c-feat-dot"></div><div><h3>LCD màu 5 inch + núm xoay</h3><p>Xem toàn bộ thông số vận hành, cài đặt ngưỡng bảo vệ và tra lịch sử sự kiện ngay tại tủ điện. Cảm biến hồng ngoại tự kích hoạt màn hình khi có người thao tác.</p></div></div>
+        <div class="c-feat-item"><div class="c-feat-dot"></div><div><h3>3 phương thức điều khiển đầu ra linh hoạt</h3><p>Tiếp điểm rơ-le (AC 5A/380V) cho contactor truyền thống, tín hiệu 12V cho SCR/thyristor, và RS-485 bus cho module SmartCap thông minh — tối đa 32 module trên một bus.</p></div></div>
+        <div class="c-feat-item"><div class="c-feat-dot"></div><div><h3>Truyền thông đa kênh + nâng cấp từ xa</h3><p>RS-232/RS-485/USB/LAN + Modbus RTU. Module GPRS/Bluetooth tùy chọn: đọc dữ liệu và cập nhật firmware hoàn toàn từ xa, không cần đến hiện trường.</p></div></div>
+        <div class="c-feat-item"><div class="c-feat-dot"></div><div><h3>Phần cứng công nghiệp, dải nhiệt rộng</h3><p>Vận hành ổn định từ −25°C đến +65°C, chống nhiễu điện từ EMC. Lắp đặt panel-mount tiêu chuẩn, phù hợp môi trường trong và ngoài trời.</p></div></div>
+      </div>
+    </div>
+
+    <!-- SPECS C -->
+    <div class="c-sec" id="c-specs">
+      <div class="c-sec-hd"><h2>Thông số kỹ thuật cơ bản</h2><p>Tham khảo nhanh — xem Datasheet đầy đủ để có tất cả chi tiết kỹ thuật</p></div>
+      <table class="c-specs-tbl"><thead><tr><th style="width:42%">Thông số</th><th>Giá trị / Mô tả</th></tr></thead><tbody>
+        <tr><td class="c-td-k">Điện áp nguồn làm việc</td><td class="c-td-v">AC 220 / 380 V ±20%</td></tr>
+        <tr><td class="c-td-k">Công suất tiêu thụ</td><td class="c-td-v">< 5 W</td></tr>
+        <tr><td class="c-td-k">Điện áp lấy mẫu</td><td class="c-td-v">230 V (3P4W) · 400 V (3P3W)</td></tr>
+        <tr><td class="c-td-k">Dòng điện lấy mẫu (CT)</td><td class="c-td-v">≤ 5 A (thứ cấp CT)</td></tr>
+        <tr><td class="c-td-k">Độ chính xác U / I / P</td><td class="c-td-v">Cấp 0.5</td></tr>
+        <tr><td class="c-td-k">Độ chính xác Q</td><td class="c-td-v">Cấp 1.0</td></tr>
+        <tr><td class="c-td-k">Sai số cosφ</td><td class="c-td-v">±0.01</td></tr>
+        <tr><td class="c-td-k">Sai số bảo vệ U/I/THD</td><td class="c-td-v">≤ ±1.0%</td></tr>
+        <tr><td class="c-td-k">Số module điều khiển tối đa</td><td class="c-td-v">32 module SmartCap (RS-485 bus)</td></tr>
+        <tr><td class="c-td-k">Cổng truyền thông</td><td class="c-td-v">RS-232 · RS-485 · USB · LAN</td></tr>
+        <tr><td class="c-td-k">Giao thức</td><td class="c-td-v">Modbus RTU · tùy chọn GPRS / Bluetooth</td></tr>
+        <tr><td class="c-td-k">Giao diện HMI</td><td class="c-td-v">LCD màu 5.0 inch + núm xoay</td></tr>
+        <tr><td class="c-td-k">Lưu trữ dữ liệu</td><td class="c-td-v">Hơn 1 năm (không mất khi mất điện)</td></tr>
+        <tr><td class="c-td-k">Nhiệt độ vận hành</td><td class="c-td-v">−25°C ÷ +65°C</td></tr>
+        <tr><td class="c-td-k">Kích thước lỗ lắp đặt</td><td class="c-td-v">258 × 128 mm (panel mount)</td></tr>
+        <tr><td class="c-td-k">Kích thước tổng thể</td><td class="c-td-v">270(D) × 140(C) × 125(S) mm</td></tr>
+      </tbody></table>
+    </div>
+
+    <!-- STANDARDS C -->
+    <div class="c-sec" id="c-standards">
+      <div class="c-sec-hd"><h2>Chứng chỉ & Tiêu chuẩn</h2><p>Thiết kế tham chiếu theo các tiêu chuẩn kỹ thuật điện quốc tế</p></div>
+      <div class="c-std-grid">
+        <div class="c-std"><h3>IEC 61000-4-5</h3><p>Miễn nhiễm xung sét — hoạt động ổn định khi có xung quá áp từ lưới.</p></div>
+        <div class="c-std"><h3>IEEE 519</h3><p>Giới hạn sóng hài — hỗ trợ đo và báo cáo THD theo tiêu chuẩn IEEE 519.</p></div>
+        <div class="c-std"><h3>Modbus RTU / RS-485</h3><p>Giao thức chuẩn mở — tích hợp SCADA, BMS và phần mềm quản lý điện năng.</p></div>
+        <div class="c-std"><h3>IEC 61000 (series)</h3><p>Tương thích điện từ EMC — tiêu chuẩn cho thiết bị đo và kiểm soát CLĐN.</p></div>
+        <div class="c-std"><h3>GB/T 7261</h3><p>Phương pháp thử thiết bị bảo vệ — độ chính xác và hiệu suất bảo vệ.</p></div>
+        <div class="c-std"><h3>GB/T 15945 / 12325</h3><p>Tiêu chuẩn CLĐN — ngưỡng bảo vệ điện áp và giám sát tần số mặc định.</p></div>
+      </div>
+      <div class="c-note">⚠ <strong>Lưu ý:</strong> Thông tin trên mô tả thiết kế <em>tham chiếu theo</em> tiêu chuẩn. Vedstar không tự công bố chứng chỉ CE/RoHS trừ khi có văn bản kèm theo. Liên hệ bộ phận kỹ thuật để xác nhận.</div>
+    </div>
+
+    <!-- DOWNLOADS C -->
+    <div class="c-sec" id="c-downloads">
+      <div class="c-sec-hd"><h2>Tài liệu kỹ thuật</h2><p>Dành cho kỹ sư thiết kế, tư vấn và đội thi công lắp đặt</p></div>
+      <div class="c-dl-grid">
+        <a href="#" class="c-dl-row"><div class="c-dl-ic">📄</div><div class="c-dl-meta"><h3>Datasheet TDS-1531</h3><p>Thông số đầy đủ <span class="b-dl-badge badge-pdf">PDF</span></p></div><div class="c-dl-arr">→</div></a>
+        <a href="#" class="c-dl-row"><div class="c-dl-ic">📘</div><div class="c-dl-meta"><h3>Manual / Hướng dẫn sử dụng</h3><p>Lắp đặt · Vận hành · Bảo trì <span class="b-dl-badge badge-pdf">PDF</span></p></div><div class="c-dl-arr">→</div></a>
+        <a href="#" class="c-dl-row"><div class="c-dl-ic">🗂️</div><div class="c-dl-meta"><h3>Catalogue SmartCap</h3><p>Danh mục model & bảng chọn <span class="b-dl-badge badge-pdf">PDF</span></p></div><div class="c-dl-arr">→</div></a>
+        <div class="c-dl-row disabled"><div class="c-dl-ic">📰</div><div class="c-dl-meta"><h3>Brochure giới thiệu</h3><p>Tổng quan giải pháp <span class="b-dl-badge badge-soon">Sắp có</span></p></div><div class="c-dl-arr">→</div></div>
+        <div class="c-dl-row disabled"><div class="c-dl-ic">📐</div><div class="c-dl-meta"><h3>Bản vẽ kỹ thuật</h3><p>Kích thước & sơ đồ đấu nối <span class="b-dl-badge badge-soon">Sắp có</span></p></div><div class="c-dl-arr">→</div></div>
+        <a href="#" class="c-dl-row"><div class="c-dl-ic">✅</div><div class="c-dl-meta"><h3>Checklist khảo sát</h3><p>Phiếu thông tin tư vấn <span class="b-dl-badge badge-docx">DOCX</span></p></div><div class="c-dl-arr">→</div></a>
+      </div>
+    </div>
+
+  </div><!-- /c-content -->
+</div><!-- /c-body -->
+
+<!-- CONTACT C -->
+<div class="c-contact-sec" id="c-contact">
+  <div class="c-contact-grid">
+    <div class="c-contact-left">
+      <h2>Liên hệ về sản phẩm</h2>
+      <p>VEDSTAR đồng hành xuyên suốt 3 giai đoạn — tư vấn kỹ thuật, triển khai và hậu mãi. Cam kết hỗ trợ tận tâm, có mặt tại công trình trong 24 giờ.</p>
+      <div class="c-steps">
+        <div class="c-step"><div class="c-step-dot">★</div><div class="c-step-body"><h3>Presale</h3><p>Tư vấn kỹ thuật, lựa chọn giải pháp & cấu hình thiết bị phù hợp</p></div></div>
+        <div class="c-step"><div class="c-step-dot">★</div><div class="c-step-body"><h3>In-sale</h3><p>Hỗ trợ triển khai, lắp đặt, commissioning đúng tiêu chuẩn</p></div></div>
+        <div class="c-step"><div class="c-step-dot">★</div><div class="c-step-body"><h3>After-sale</h3><p>Bảo trì định kỳ, nâng cấp firmware, thay thế phụ tùng kịp thời</p></div></div>
+      </div>
+    </div>
+    <div class="c-form">
+      <h3>Để lại thông tin để nhận tư vấn</h3>
+      <p class="csub">Phản hồi trong vòng 24 giờ làm việc</p>
+      <div class="c-fg-row">
+        <div class="c-fg"><label>Họ và tên <em>*</em></label><input type="text" placeholder="Nguyễn Văn A"/></div>
+        <div class="c-fg"><label>Số điện thoại <em>*</em></label><input type="tel" placeholder="0912 345 678"/></div>
+      </div>
+      <div class="c-fg"><label>Email <em>*</em></label><input type="email" placeholder="email@congty.vn"/></div>
+      <div class="c-fg"><label>Sản phẩm quan tâm</label><input type="text" value="TDS-1531 – Bộ điều khiển bù CSPK hạ thế"/></div>
+      <div class="c-fg"><label>Yêu cầu tư vấn</label><textarea placeholder="Mô tả ngắn hệ thống hoặc vấn đề đang gặp…"></textarea></div>
+      <button class="c-submit">Gửi yêu cầu tư vấn</button>
+    </div>
+  </div>
+</div>
+<footer class="c-footer">
+  <div class="c-fgrid"><div><span class="c-flogo">VEDSTAR</span><p class="c-fabout">VEDSTAR cung cấp giải pháp và thiết bị điện năng tối ưu với hơn 15 năm kinh nghiệm triển khai dự án cơ điện tại Việt Nam.</p></div><div class="c-fcol"><h4>Sản phẩm</h4><ul><li><a href="#">SmartCap</a></li><li><a href="#">APF</a></li><li><a href="#">SVG</a></li><li><a href="#">BESS</a></li></ul></div><div class="c-fcol"><h4>Dịch vụ</h4><ul><li><a href="#">Đánh giá CLĐN</a></li><li><a href="#">Đào tạo</a></li><li><a href="#">Bảo trì</a></li></ul></div><div class="c-fcol"><h4>Liên hệ</h4><ul><li><a href="#">📞 024.982.1234</a></li><li><a href="#">✉ info@vedstar.com.vn</a></li><li><a href="#">📍 Nam Từ Liêm, Hà Nội</a></li></ul></div></div>
+  <div class="c-fbottom"><span>© 2025 Công ty cổ phần VEDSTAR</span><a href="#" style="color:rgba(255,255,255,.3);text-decoration:none">Chính sách bảo mật</a></div>
+</footer>
+</div>
+</div><!-- /design-3 -->
+
+<script>
+function showDesign(n) {
+  document.querySelectorAll('.design-frame').forEach(f => f.classList.remove('active'));
+  document.querySelectorAll('.design-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('design-' + n).classList.add('active');
+  document.querySelectorAll('.design-btn')[n-1].classList.add('active');
+  window.scrollTo(0,0);
+}
+// Design A: tab switcher
+function aTab(id, el) {
+  document.querySelectorAll('#design-1 .a-tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('#design-1 .a-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+// Design C: sticky sidebar tracking
+window.addEventListener('scroll', function() {
+  if (!document.getElementById('design-3').classList.contains('active')) return;
+  const sections = ['c-overview','c-features','c-specs','c-standards','c-downloads'];
+  let current = sections[0];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top < 150) current = id;
+  });
+  document.querySelectorAll('.c-snav-item').forEach(item => {
+    item.classList.toggle('active', item.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
